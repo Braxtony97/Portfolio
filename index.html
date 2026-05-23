@@ -3,69 +3,545 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Моё портфолио</title>
+    <title>Renat — Unity Developer Portfolio</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* Контейнер */
+        .container {
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+            padding: 40px 20px;
         }
-        h1 {
-            color: #333;
+
+        /* Блок ОБО МНЕ (фото + текст) */
+        .about-section {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 35px;
+            margin-bottom: 50px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .about-photo {
+            flex: 1;
+            min-width: 160px;
             text-align: center;
         }
-        .work {
-            background: white;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+        .about-photo img {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 50%;
+            border: 3px solid #ff6b6b;
+            object-fit: cover;
         }
-        .work h3 {
-            margin: 0 0 10px 0;
-            color: #0077ff;
+
+        .about-text {
+            flex: 2;
+            min-width: 250px;
         }
-        .contact {
-            background: #333;
+
+        .about-text h1 {
+            font-size: 2.2em;
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .about-text .tagline {
+            font-size: 1em;
+            color: #feca57;
+            margin-bottom: 15px;
+            border-left: 3px solid #ff6b6b;
+            padding-left: 15px;
+        }
+
+        .about-text p {
+            color: #ddd;
+            font-size: 0.95em;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid #ff6b6b;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.8em;
+            margin-top: 15px;
+        }
+
+        /* Стиль для ВЕРТИКАЛЬНЫХ КАРТОЧЕК */
+        .demo-card-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .demo-card {
+            background: rgba(20, 20, 40, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255,107,107,0.5);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .demo-card .head {
+            background: rgba(0,0,0,0.4);
+            padding: 20px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .demo-card .head .number-box {
+            display: inline-block;
+            background: #ff6b6b;
             color: white;
-            padding: 20px;
-            text-align: center;
-            border-radius: 10px;
-            margin-top: 30px;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
-        .contact a {
-            color: #0077ff;
+
+        .demo-card .head h2 {
+            font-size: 1.6em;
+            font-weight: 500;
+            color: white;
+        }
+
+        .demo-card .head h2 .small {
+            font-size: 0.6em;
+            font-weight: 300;
+            color: #ffb8b8;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .demo-card .body {
+            padding: 25px;
+        }
+
+        .demo-card .body p {
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        .demo-card .body a {
+            color: #ff6b6b;
             text-decoration: none;
+        }
+
+        .demo-card .body a:hover {
+            text-decoration: underline;
+        }
+
+        /* Видео/гифка внутри карточки */
+        .media-container {
+            margin: 20px 0 10px;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+            max-width: 500px;  /* ← добавьте эту строку */
+            margin-left: auto;  /* ← центрирование по левому краю */
+            margin-right: auto; /* ← центрирование по правому краю */
+        }
+
+        .media-container video,
+        .media-container img {
+            width: 100%;
+            display: block;
+            border-radius: 12px;
+        }
+
+        /* Стили для карусели (галереи) */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .carousel-slides {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            object-fit: cover;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.6);
+            color: white;
+            border: none;
+            font-size: 2em;
+            cursor: pointer;
+            padding: 10px 15px;
+            z-index: 10;
+            transition: background 0.2s ease;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(255,107,107,0.8);
+        }
+
+        .carousel-btn.prev {
+            left: 10px;
+        }
+
+        .carousel-btn.next {
+            right: 10px;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .carousel-dot.active {
+            background: #ff6b6b;
+        }
+
+        /* Социальные ссылки */
+        .socials-footer {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .socials-footer a {
+            color: #ff6b6b;
+            text-decoration: none;
+            margin: 0 12px;
+            font-size: 1.1em;
+        }
+
+        .socials-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Контакты */
+        .contact-section {
+            text-align: center;
+            margin: 50px 0 30px;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+        }
+
+        .contact-section h2 {
+            font-weight: normal;
+            margin-bottom: 15px;
+        }
+
+        .contact-section a {
+            color: #ff6b6b;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+
+        hr {
+            border-color: rgba(255,255,255,0.1);
+            margin: 20px 0;
+        }
+
+        @media (max-width: 600px) {
+            .about-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            .about-text .tagline {
+                border-left: none;
+                padding-left: 0;
+            }
+            .demo-card .head h2 {
+                font-size: 1.3em;
+            }
+            .carousel-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1.5em;
+                padding: 5px 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Иван Петров</h1>
-    <p style="text-align: center;">Веб-разработчик | Создаю сайты и приложения</p>
+    <div class="container">
+        
+        <!-- БЛОК ОБО МНЕ (фото слева, текст справа) -->
+        <div class="about-section">
+            <div class="about-photo">
+                <!-- ЗАМЕНИТЕ НА ВАШЕ ФОТО -->
+                <img src="Ava.jpg" alt="Renat">
+            </div>
+            <div class="about-text">
+                <h1>Привет, я Ренат</h1>
+                <div class="tagline">Unity Developer</div>
+                <p>Я создаю игры и интерактивные проекты. Реализую архитектуры проектов, клиент-серверные взаймодействия, UI-интефрейсы, отдельные игровые механики и поведения.<br> Здесь собраны мои работы с примерами геймплея. Люблю экспериментировать с механиками и создавать уникальный игровой опыт.</p>
+                <div class="badge">3+ года в коммерческой разработке</div>
+            </div>
+        </div>
 
-    <h2>Мои работы</h2>
+        <!-- ВЕРТИКАЛЬНЫЕ БЛОКИ С ПРОЕКТАМИ -->
+        <div class="demo-card-wrapper">
+            
+            <!-- ПРОЕКТ 1 -->
+            <div class="demo-card">
+                <div class="head">
+                    <div class="number-box">2026</div>
+                    <h2><span class="small"></span>AUTOMATIC-SERVICE</h2>
+                </div>
+                <div class="body">
+                    <p>VR-тренажер для выполнения газоопасных работ.</p>
+                    <div class="media-container">
+                        <video autoplay loop muted playsinline>
+                            <source src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3V5ZHpsMXFkZXlvNDUyanpxMGp3MGIwenR5ZWJwOXZxbGo4MTgyNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/CpEiqXJ20bnqzvgrJc/giphy.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ПРОЕКТ 2 -->
+            <div class="demo-card">
+                <div class="head">
+                    <div class="number-box">2026</div>
+                    <h2><span class="small"></span>MAZ</h2>
+                </div>
+                <div class="body">
+                    <p>VR-тренажер для управления снегоуборочной машиной.</p>
+                    <div class="media-container">
+                        <video autoplay loop muted playsinline>
+                            <source src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExcnF5cnZzemZ6ZTZ5czhtdHY0cDlqbXF1eGhleTRkbGZ4bDg0ZDdpYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/y0E7OM0s8eLntUkZ25/giphy.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ПРОЕКТ 2 -->
+            <div class="demo-card">
+                <div class="head">
+                    <div class="number-box">2025</div>
+                    <h2><span class="small"></span>FIRST-HELP</h2>
+                </div>
+                <div class="body">
+                    <p>VR-тренажер для оказания первой помощи.</p>
+                    <div class="media-container">
+                        <video autoplay loop muted playsinline>
+                            <source src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGlxM29mYnljczBpcnRxZnBiYzN5d2JxcndheGFlbWF6ZnQ1cnFlNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/XawYGG9h3BYtrGeNtj/giphy.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ПРОЕКТ 2 -->
+            <div class="demo-card">
+                <div class="head">
+                    <div class="number-box">2025</div>
+                    <h2><span class="small"></span>WELL-TECH</h2>
+                </div>
+                <div class="body">
+                    <p>VR-тренажер для работы со скважиной.</p>
+                    <div class="media-container">
+                        <video autoplay loop muted playsinline>
+                            <source src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcnhyYW5reHdqdnQ4d3BqMjNsM2g1NmM3YWZ5aDRsY3RoYzdoNHpuYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/0NNN514uimDwCRuoSC/giphy.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ПРОЕКТ 3 - KUPALA с ГАЛЕРЕЕЙ (каруселью) -->
+            <div class="demo-card">
+                <div class="head">
+                    <div class="number-box">2024</div>
+                    <h2><span class="small"></span>KUPALA</h2>
+                </div>
+                <div class="body">
+                    <p>Конструктор ванных комнат - приложение для сотрудников торговых сетей для проектирования ванных комнат с учётом пожеланий клиента.</p>
+                    <p><a href="https://kupalapro.ru/" target="_blank" rel="noopener noreferrer">Сайт проекта →</a></p>
+                    <div class="media-container">
+                        <div class="carousel-container" id="carousel-kupala">
+                            <div class="carousel-slides">
+                                <img class="carousel-slide active" src="kupala3.jpg" alt="KUPALA скриншот 1">
+                                <img class="carousel-slide" src="kupala4.jpg" alt="KUPALA скриншот 2">
+                                <img class="carousel-slide" src="kupala1.jpg" alt="KUPALA скриншот 3">
+                                <img class="carousel-slide" src="kupala2.jpg" alt="KUPALA скриншот 4">
+                                <img class="carousel-slide" src="kupala5.jpg" alt="KUPALA скриншот 5">
+                            </div>
+                            <button class="carousel-btn prev" onclick="changeSlide(-1, 'carousel-kupala')">‹</button>
+                            <button class="carousel-btn next" onclick="changeSlide(1, 'carousel-kupala')">›</button>
+                            <div class="carousel-dots" id="dots-kupala"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ПРОЕКТ 4 - SIT-NEBO -->
+            <div class="demo-card">
+                <div class="head">
+                    <div class="number-box">2023</div>
+                    <h2><span class="small"></span>SIT-NEBO</h2>
+                </div>
+                <div class="body">
+                    <p>Тренажер для обучения операторов и пилотов БАС.</p>
+                    <p><a href="https://sit-nebo.ru/" target="_blank" rel="noopener noreferrer">Сайт проекта →</a></p>
+                    <div class="media-container">
+                        <video autoplay loop muted playsinline>
+                            <source src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXVmdnZsOTc2dThqd3J3bHQ4cHU3aGU2aGF4NnV5azg4a2c4NGF0dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/gMi4Y5HogMMZtSHQbT/giphy.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- СОЦИАЛЬНЫЕ ССЫЛКИ -->
+        <!-- <div class="socials-footer">
+            <p style="margin-bottom: 15px;">Мои ссылки:</p>
+            <a href="https://github.com/">GitHub</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">Itch.io</a>
+            <a href="#">Twitter</a>
+        </div> -->
+
+        <div class="contact-section">
+    <h2>Контакты</h2>
     
-    <div class="work">
-        <h3>Проект 1: Сайт для кафе</h3>
-        <p>Разработал современный сайт с меню и онлайн-заказом.</p>
+    <!-- Каждая ссылка на отдельной строке -->
+    <div class="contact-item">
+        <a href="mailto:samigullin_renat_01@mail.ru">samigullin_renat_01@mail.ru</a>
     </div>
     
-    <div class="work">
-        <h3>Проект 2: Интернет-магазин</h3>
-        <p>Создал магазин одежды с корзиной и оплатой.</p>
+    <div class="contact-item">
+        <a href="https://t.me/RenatSamigullin" target="_blank">tg: @RenatSamigullin</a>
     </div>
-    
-    <div class="work">
-        <h3>Проект 3: Портфолио фотографа</h3>
-        <p>Сайт с галереей и формой обратной связи.</p>
+</div>
+
     </div>
 
-    <div class="contact">
-        <h3>Свяжитесь со мной</h3>
-        <p>Email: ivan@example.com</p>
-        <p>Telegram: @ivanpetrov</p>
-    </div>
+    <script>
+        // Функции для работы карусели (галереи с картинками)
+        function initCarousel(carouselId, slideCount) {
+            const dotsContainer = document.getElementById(`dots-${carouselId.split('-')[1]}`);
+            if (!dotsContainer) return;
+            
+            for (let i = 0; i < slideCount; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('carousel-dot');
+                if (i === 0) dot.classList.add('active');
+                dot.onclick = () => goToSlide(i, carouselId);
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function changeSlide(direction, carouselId) {
+            const container = document.getElementById(carouselId);
+            const slides = container.querySelectorAll('.carousel-slide');
+            const dots = container.querySelectorAll('.carousel-dot');
+            let currentIndex = -1;
+            
+            for (let i = 0; i < slides.length; i++) {
+                if (slides[i].classList.contains('active')) {
+                    currentIndex = i;
+                    break;
+                }
+            }
+            
+            let newIndex = currentIndex + direction;
+            if (newIndex < 0) newIndex = slides.length - 1;
+            if (newIndex >= slides.length) newIndex = 0;
+            
+            goToSlide(newIndex, carouselId);
+        }
+
+        function goToSlide(index, carouselId) {
+            const container = document.getElementById(carouselId);
+            const slides = container.querySelectorAll('.carousel-slide');
+            const dots = container.querySelectorAll('.carousel-dot');
+            
+            slides.forEach((slide, i) => {
+                if (i === index) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // Запуск карусели при загрузке страницы (для KUPALA 5 картинок)
+        window.addEventListener('load', function() {
+            initCarousel('carousel-kupala', 5);
+        });
+    </script>
 </body>
 </html>
